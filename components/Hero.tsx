@@ -63,7 +63,7 @@ export default function Hero() {
         <motion.div variants={fadeInUp}>
           <Link
             href="/ferramenta"
-            className="inline-block px-6 py-3 mt-4 text-lg font-semibold text-white bg-[#EE1216] rounded-xl shadow-lg hover:bg-[#0030B5] transition-colors"
+            className="inline-block px-6 py-3 mt-4 text-lg font-semibold text-white bg-[#EE1216] rounded-xl shadow-lg hover:bg-[#C40A0A] transition-colors"
           >
             Verificar vazamentos
           </Link>

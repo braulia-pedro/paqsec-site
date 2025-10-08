@@ -217,7 +217,7 @@ export default function FerramentaPage() {
                 whileTap={{ scale: 0.97 }}
                 onClick={handlePrimaryAction}
                 disabled={loading}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-semibold shadow-lg border border-red-600 bg-red-600 hover:bg-red-500 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-semibold shadow-lg border-red-600 bg-red-600 hover:bg-[#C40A0A] disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isScanning ? (
                   <>
