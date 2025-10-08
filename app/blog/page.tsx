@@ -30,7 +30,7 @@ export default function BlogPage() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-14">
-          <h1 className="text-5xl font-bold">
+          <h1 className="text-5xl font-bold mt-20">
             Bem-vindo ao <span className="text-blue-400">Blog</span>
           </h1>
           <p className="mt-3 text-lg text-white/70">

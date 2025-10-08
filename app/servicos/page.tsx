@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Shield, Radar, Bug, LockIcon, Search, Building2, MonitorSmartphone, Layers, Users, GraduationCap } from "lucide-react";
-
+import Image from "next/image"
 const services = [
   {
     key: "dfir",
@@ -44,7 +44,7 @@ const services = [
     title: "Verificação de Antecedentes & Due Diligence",
     icon: Building2,
     desc: "Proteja decisões críticas: investigação rigorosa de colaboradores, fornecedores e parceiros, avaliação de riscos reputacionais, compliance e exposição legal antes de contratar ou fechar negócios.",
-    image: "verify.png",
+    image: "/verify.png",
   },  
   {
     key: "grc",
@@ -112,9 +112,11 @@ export default function ServicesPage() {
             >
               <h2 className="text-2xl font-bold text-blue-400 mb-4">{s.title}</h2>
               <div className="w-full h-64 overflow-hidden rounded-xl mb-4">
-                <img
+                <Image
                   src={s.image}
                   alt={s.title}
+                  width={1200}
+                  height={700}
                   className="w-full h-full object-cover"
                 />
               </div>

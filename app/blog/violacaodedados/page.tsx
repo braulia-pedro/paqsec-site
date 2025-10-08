@@ -1,9 +1,13 @@
+import Image from "next/image";
+
 export default function Conteudo1() {
   return (
-    <article className="prose prose-invert mx-auto py-20 px-6 max-w-3xl">
-      <img
+    <article className="prose prose-invert mx-auto py-20 px-6 max-w-3xl mt-20">
+      <Image
         src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?q=80&w=1200"
         alt="Relatório de violação de dados"
+        width={1200}
+        height={400}
         className="w-full h-72 object-cover rounded-2xl shadow-lg mb-8"
       />
 

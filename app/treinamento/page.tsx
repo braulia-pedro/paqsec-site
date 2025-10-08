@@ -1,19 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
-import { Shield, Target, Users, Briefcase, Laptop, ArrowRight } from "lucide-react";
+import { Shield, Target, Users, ArrowRight, Briefcase } from "lucide-react";
 import Card from "@/components/Card";
+import { JSX } from "react";
 
-export default function TrainingCareer() {
+export default function TrainingCareer(): JSX.Element {
   return (
     <div className="bg-black text-white">
-      {/* Hero */}
-      <section className="relative py-24 px-6 text-center bg-gradient-to-br from-[#001a4d] via-black to-[#000814] overflow-hidden">        
+      {/* Hero Section */}
+      <section className="relative py-24 px-6 text-center bg-gradient-to-br from-[#001a4d] via-black to-[#000814] overflow-hidden">
         <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+
         <motion.p
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="uppercase tracking-widest text-sm text-[#00AEFF] mb-3 mt-6" // <-- espaço extra no topo
+          className="uppercase tracking-widest text-sm text-[#00AEFF] mb-3 mt-6"
         >
           Programas Profissionais de Cibersegurança
         </motion.p>
@@ -45,7 +47,6 @@ export default function TrainingCareer() {
           >
             Solicitar Proposta
           </motion.button>
-
           <motion.a
             href="#programs"
             aria-label="Ver Programas"
@@ -56,7 +57,7 @@ export default function TrainingCareer() {
         </div>
       </section>
 
-      {/* Programas */}
+      {/* Programas Avançados */}
       <section id="programs" className="pt-12 pb-20 px-6 max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -87,27 +88,6 @@ export default function TrainingCareer() {
         </div>
       </section>
 
-      {/* Workshops & Labs 
-      <section className="py-20 px-6 bg-gradient-to-r from-[#0a0a0a] to-[#001233]">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-
-            className="p-8 rounded-2xl border border-white/10 bg-white/5 shadow-xl cursor-pointer transition"
-          >
-            <Briefcase className="w-10 h-10 text-[#00AEFF]" />
-            <h3 className="text-xl font-semibold mt-4">Workshops Executivos</h3>
-            <p className="text-gray-300 mt-2">
-              Sessões exclusivas para conselhos de administração, com foco em
-              gestão de crises e governança em cibersegurança.
-            </p>
-          </motion.div>
-        </div>
-      </section>*/}
-
       {/* CTA Final */}
       <section id="proposal" className="py-20 px-6 text-center">
         <motion.span
@@ -134,6 +114,16 @@ export default function TrainingCareer() {
           Junte-se a dezenas de empresas que já transformaram sua postura de
           defesa com os programas exclusivos da PAQSEC.
         </p>
+
+        {/* Card: Workshops Executivos */}
+           
+        <div className="max-w-md mx-auto p-6 mb-10 text-left text-justify">
+          <Card
+            icon={<Briefcase className="w-10 h-10 text-[#00AEFF]" />}
+            title="Workshops Executivos"
+            desc="Sessões exclusivas para conselhos de administração, com foco em gestão de crises e governança em cibersegurança."
+          />
+        </div>
 
         <motion.button
           whileHover={{ scale: 1.05 }}

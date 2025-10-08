@@ -1,3 +1,4 @@
+//-----------------FerramentaPage.tsx ffb16b77dd8e48d3838e14035464ae3f
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -11,15 +12,28 @@ import {
   Terminal,
   ArrowRight,
 } from "lucide-react";
-import Link from "next/link";
+
+// ======= TIPOS =======
+type Breach = {
+  name?: string;
+  Title?: string;
+  Name?: string;
+  BreachDate?: string;
+  date?: string;
+  Domain?: string;
+  domain?: string;
+};
+
+type StatusObj =
+  | { type: "ok" | "found" | "error"; message: string; details?: Breach[] }
+  | null;
 
 export default function FerramentaPage() {
   const [mode, setMode] = useState<"email" | "password">("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState<
-    null | { type: "ok" | "found" | "error"; message: string; details?: any }
-  >(null);
+  // substituído any por StatusObj
+  const [status, setStatus] = useState<StatusObj>(null);
   const [loading, setLoading] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
 
@@ -43,12 +57,33 @@ export default function FerramentaPage() {
       const res = await fetch(`/api/check_email?email=${encodeURIComponent(email)}`);
       const data = await res.json();
       if (res.ok) {
-        if (data.found || (Array.isArray(data.breaches) && data.breaches.length > 0)) {
-          const total = Array.isArray(data.breaches) ? data.breaches.length : (data.found ? 1 : 0);
+        // normaliza e valida o formato de breaches para Breach[]
+        const breaches: Breach[] | undefined = Array.isArray(data.breaches)
+          ? (data.breaches as unknown[]).map((b) => {
+              // garante shape mínimo sem lançar
+              const obj = (b ?? {}) as Record<string, unknown>;
+              return {
+                name: typeof obj.Title === "string" ? (obj.Title as string)
+                       : typeof obj.Name === "string" ? (obj.Name as string)
+                       : typeof obj.name === "string" ? obj.name
+                       : "Unknown",
+                date: typeof obj.BreachDate === "string" ? (obj.BreachDate as string)
+                      : typeof obj.date === "string" ? (obj.date as string)
+                      : "Unknown",
+                domain: typeof obj.Domain === "string" ? (obj.Domain as string)
+                        : typeof obj.domain === "string" ? (obj.domain as string)
+                        : undefined,
+              } as Breach;
+            })
+          : undefined;
+
+        const total = breaches?.length ?? (data.found ? 1 : 0);
+
+        if (total > 0) {
           setStatus({
             type: "found",
             message: ` O seu email foi encontrado em ${total} violações.`,
-            details: data.breaches,
+            details: breaches,
           });
         } else {
           setStatus({
@@ -59,8 +94,13 @@ export default function FerramentaPage() {
       } else {
         setStatus({ type: "error", message: data?.error || "Erro ao consultar API." });
       }
-    } catch (e: any) {
-      setStatus({ type: "error", message: e?.message || "Erro de rede." });
+    } catch (e: unknown) {
+      // safe handling do error
+      if (e instanceof Error) {
+        setStatus({ type: "error", message: e.message || "Erro de rede." });
+      } else {
+        setStatus({ type: "error", message: "Erro de rede desconhecido." });
+      }
     } finally {
       setLoading(false);
       setTimeout(() => setIsScanning(false), 600);
@@ -95,8 +135,12 @@ export default function FerramentaPage() {
           message: " Nenhuma ocorrência conhecida encontrada para esta palavra-passe.",
         });
       }
-    } catch (e: any) {
-      setStatus({ type: "error", message: e?.message || "Erro ao verificar palavra-passe." });
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setStatus({ type: "error", message: e.message || "Erro ao verificar palavra-passe." });
+      } else {
+        setStatus({ type: "error", message: "Erro desconhecido ao verificar palavra-passe." });
+      }
     } finally {
       setLoading(false);
       setTimeout(() => setIsScanning(false), 600);
@@ -104,18 +148,31 @@ export default function FerramentaPage() {
   }
 
   function handlePrimaryAction() {
-    mode === "email" ? handleCheckEmail() : handleCheckPassword();
+    if (mode === "email") {
+      handleCheckEmail();
+    } else {
+      handleCheckPassword();
+    }
   }
 
+
   function toggleMode() {
-    setMode(mode === "email" ? "password" : "email");
+    setMode((m) => (m === "email" ? "password" : "email"));
     setStatus(null);
     setLoading(false);
     setIsScanning(false);
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <motion.div
+      initial={{ opacity: 0, y: 15}}
+      animate={{ opacity: 1, y: 0}}
+      transition={{
+        duration: 0.6,
+        ease: "easeInOut"
+      }}
+      className="min-h-screen bg-black text-white"
+    >
       <section className="relative overflow-hidden pt-24">
         <div className="mx-auto max-w-7xl px-6 py-20 grid lg:grid-cols-2 gap-12 items-center">
           {/* Coluna Esquerda */}
@@ -222,17 +279,39 @@ export default function FerramentaPage() {
                 {status?.type === "found" && (
                   <>
                     {mode === "email" ? (
-                      <InfoRow
-                        icon={<Terminal className="w-4 h-4" />}
-                        label="Email encontrado"
-                        value={`${status.details?.length || 0} referências`}
-                        accent="#EE1216"
-                      />
+                      <div className="space-y-2">
+                        <InfoRow
+                          icon={<Terminal className="w-4 h-4" />}
+                          label="Email encontrado"
+                          value={`${status.details?.length || 0} violações`}
+                          accent="#EE1216"
+                        />
+
+                        {/* 🔹 Lista resumida das violações */}
+                        <div className="mt-3 max-h-40 overflow-y-auto pr-1 text-white/70 text-xs space-y-1 border-t border-white/10 pt-2">
+                          {status.details?.slice(0, 5).map((b: Breach, i: number) => (
+                            <div
+                              key={i}
+                              className="flex items-center justify-between border-b border-white/5 py-1"
+                            >
+                              <span className="truncate max-w-[160px]">{b.name}</span>
+                              <span className="text-white/50">{b.date}</span>
+                            </div>
+                          ))}
+
+                          {(status.details?.length ?? 0) > 5 && (
+                            <p className="text-[11px] text-white/50 italic mt-1">
+                              + {(status.details?.length ?? 0) - 5} outras violações não exibidas
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     ) : (
                       <p className="text-red-400">{status.message}</p>
                     )}
                   </>
                 )}
+
 
                 {status?.type === "ok" && (
                   <p className="text-green-400">{status.message}</p>
@@ -243,12 +322,12 @@ export default function FerramentaPage() {
                 )}
               </div>
 
-              <Link
-                href="/servicos"
+              <a
+                href="#servicos"
                 className="mt-6 inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
               >
                 Explorar soluções <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -282,11 +361,18 @@ export default function FerramentaPage() {
           </div>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 }
 
-function InfoRow({ icon, label, value, accent }: any) {
+type InfoRowProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+  accent?: string;
+};
+
+function InfoRow({ icon, label, value, accent }: InfoRowProps) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2 text-white/80">
@@ -299,3 +385,4 @@ function InfoRow({ icon, label, value, accent }: any) {
     </div>
   );
 }
+

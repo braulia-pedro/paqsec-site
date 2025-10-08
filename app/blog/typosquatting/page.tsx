@@ -1,9 +1,14 @@
+//site-paqsec/app/blog/typosquatting/page.tsx
+import Image from "next/image";
+
 export default function Conteudo2() {
   return (
-    <article className="prose prose-invert mx-auto py-20 px-6 max-w-3xl">
-      <img
+    <article className="prose prose-invert mx-auto py-20 px-6 max-w-3xl mt-20">
+      <Image
         src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1200"
         alt="Typosquatting"
+        width={1200}
+        height={400}
         className="w-full h-72 object-cover rounded-2xl shadow-lg mb-8"
       />
 

@@ -1,79 +1,94 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const services = [
-  {
-    title: "Resposta a Incidentes (DFIR)",
-    desc: "Identificamos, contemos e erradicamos incidentes de segurança rapidamente ...",
-    icon: "",
-  },
-  {
-    title: "Threat Intelligence & DRP",
-    desc: "Monitoramos a superfície digital da sua organização para detectar vazamen ...",
-    icon: "",
-  },
-  {
-    title: "Attack Surface Management",
-    desc: "Veja o que os hackers veem. Monitorizamos continuamente os seus ativos ex ...",
-    icon: "",
-  },
-];
+type S = {
+  title: string;
+  desc: string;
 
-export default function Services() {
+};
+
+export default function Servico() {
+  const posts: S[] = [
+    {
+      title: "Resposta a Incidentes (DFIR)",
+      desc: "Identificamos, contemos e erradicamos incidentes de segurança rapidamente ...",
+    },
+    {
+      title: "Threat Intelligence & DRP",
+      desc: "Monitoramos a superfície digital da sua organização para detectar vazamen ...",
+    },
+    {
+      title: "Attack Surface Management",
+      desc: "Veja o que os hackers veem. Monitorizamos continuamente os seus ativos ex ...",
+
+    },
+  ];
+
   return (
     <section
-      id="services"
-      className="relative py-24 px-6 text-center bg-gradient-to-b from-black via-[#001f3f] to-black"
+      id="blog"
+      className="relative py-20 px-6 bg-gradient-to-b from-black via-[#001f3f] to-black"
     >
-      {/* Título */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.01 }}
-        viewport={{ once: true }}
-        className="relative text-4xl font-bold mb-6 z-10"
-      >
-        Nossos <span className="text-blue-400">Serviços</span>
-      </motion.h2>
-
-      {/* Cards */}
-      <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto relative z-10 mb-10">
-        {services.map((servico, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: index * 0.2 }}
-            viewport={{ once: true }}
-            className="bg-black/60 border border-white/10 p-8 rounded-2xl shadow-lg 
-                       hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] 
-                       transition"
-          >
-            <div className="text-5xl mb-4">{servico.icon}</div>
-            <h3 className="text-2xl font-semibold mb-3 text-blue-400">
-              {servico.title}
-            </h3>
-            <p className="text-gray-300">{servico.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Botão Ver tudo */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        viewport={{ once: true }}
-      >
-        <Link
-          href="/servicos"
-          className="inline-block px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg hover:opacity-90 transition"
+      <div className="mx-auto max-w-7xl">
+        {/* Título + subtítulo centralizados */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center"
         >
-          Ver tudo
-        </Link>
-      </motion.div>
+          <h2 className="text-4xl font-bold">
+            Nossos <span className="text-blue-400">Servicos</span>
+          </h2>
+          <p className="text-white/70 mt-2 max-w-2xl mx-auto">
+            Soluções completas para proteger sua organização contra riscos digitais.
+          </p>
+        </motion.div>
+
+        {/* Grid de artigos */}
+        <div className="mt-10 grid md:grid-cols-3 gap-6">
+          {posts.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              viewport={{ once: true }}
+              className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6 shadow-md hover:shadow-blue-500/20 hover:bg-white/10 transition"
+            >
+
+              <h3 className="text-2xl font-semibold mb-3 text-blue-400">{p.title}</h3>
+              <p className="text-gray-300">{p.desc}</p>
+              {/*<Link
+                href={p.href}
+                className="text-sm text-white/70 mt-3 flex items-center gap-1 hover:underline"
+              >
+                Leia mais <ArrowRight className="inline w-4 h-4" />
+              </Link>*/}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Botão Ver tudo */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-10"
+        >
+          <Link
+            href="/servicos"
+            className="inline-block px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg hover:opacity-90 transition"
+          >
+            Ver tudo
+          </Link>
+        </motion.div>
+      </div>
     </section>
   );
 }

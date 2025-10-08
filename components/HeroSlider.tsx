@@ -8,12 +8,12 @@ const slides = [
   {
     title: "Proteja-se com o auxilio da PAQSEC.",
     subtitle: "Proteção avançada contra ameaças digitais.",
-    bg: "/slides/seguro.jpg",
+    bg: "/slides/teste5.PNG",
   },
   {
     title: "Olhar atento em cada detalhe.",
     subtitle: "Prevenção inteligente, confiança garantida.",
-    bg: "/slides/eye.jpg",
+    bg: "/slides/teste4.PNG",
   },
 ];
 
